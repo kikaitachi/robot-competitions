@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://competitions.kikaitachi.com/sitemap.xml
