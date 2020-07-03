@@ -5,9 +5,14 @@
 <title>Robot competitions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="List of future, ongoing and past competitions for robots.">
+<link rel="shortcut icon" type="image/png" href="logo.png">
 <style>
 body {
 	text-align: center;
+}
+
+a {
+	color: black;
 }
 
 table {
@@ -26,6 +31,10 @@ table tr td:nth-child(2) {
 	text-align: right;
 	padding-bottom: 1em;
 }
+
+td.title {
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -34,16 +43,13 @@ table tr td:nth-child(2) {
 <p>If you know competition not listed here please let me know: <i>competitions @ kikaitachi . com</i></p>
 <table id="list"></table>
 <script>
-fetch('/list.json')
+fetch('list.json')
 	.then(response => response.json())
 	.then(data => {
 		const list = document.getElementById('list');
 		for (var i = 0; i < data.length; i++) {
 			const line1 = document.createElement('tr');
-			const title = document.createElement('td');
-			title.colSpan = 1;
-			title.innerHTML = '<a href="' + data[i].url + '">' + data[i].name + '</a>';
-			line1.appendChild(title);
+			line1.innerHTML = '<td colspan="2" class="title"><a href="' + data[i].url + '">' + data[i].name + '</a></td>';
 			list.appendChild(line1);
 
 			const line2 = document.createElement('tr');
