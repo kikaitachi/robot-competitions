@@ -1,16 +1,22 @@
 [
 	{
-		"name": "STEAM CUP Online",
+		"name": "STEAM CUP Online 2020",
 		"url": "http://www.steamcup.org/en/model/page.php?co_id=online",
 		"location": "Online",
 		"startDate": "2020-05-01",
 		"endDate": "2020-12-31"
 	},
 	{
-		"name": "Robots' Intellect",
+		"name": "Robots' Intellect 2020",
 		"url": "http://www.robotsintellect.com/en/",
 		"location": "Kaunas, Lithuania",
-		"startDate": "2020-10-02",
 		"endDate": "2020-10-02"
+	},
+	{
+		"name": "Medical Robotics for Contagious Diseases Challenge 2020",
+		"url": "https://www.ukras.org/robotics-week/challenges/medical-robotics-for-contagious-diseases-challenge-2020/",
+		"location": "Online",
+		"endDate": "2020-09-30",
+		"prize": "£15,000"
 	}
 ]

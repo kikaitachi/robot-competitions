@@ -47,7 +47,7 @@ fetch('/list.json')
 			list.appendChild(line1);
 
 			const line2 = document.createElement('tr');
-			line2.innerHTML = '<td>' + data[i].location + '</td><td>' +  data[i].startDate + ' ‒ ' + data[i].endDate + '</td>';
+			line2.innerHTML = '<td>' + data[i].location + '</td><td>' + (data[i].startDate ? data[i].startDate + ' ‒ ' : '') + data[i].endDate + '</td>';
 			list.appendChild(line2);
 		}
 	});
