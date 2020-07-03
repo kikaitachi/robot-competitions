@@ -7,30 +7,48 @@
 <meta name="description" content="List of future, ongoing and past competitions for robots.">
 <style>
 body {
+	text-align: center;
+}
+
+table {
 	margin: auto;
 }
 
-h1 {
-	text-align: center;
+td {
+	vertical-align: top;
+}
+
+table tr td:nth-child(1) {
+	text-align: left;
+}
+
+table tr td:nth-child(2) {
+	text-align: right;
+	padding-bottom: 1em;
 }
 </style>
 </head>
 <body>
 <h1>Robot competitions</h1>
-<p>List of future, ongoing and past competitions for robots. If you know competition not listed here please let me know <pre>competitions @ kikaitachi . com</pre></p>
-<dl id="list"></dl>
+<h2>List of future, ongoing and past competitions for robots</h2>
+<p>If you know competition not listed here please let me know: <i>competitions @ kikaitachi . com</i></p>
+<table id="list"></table>
 <script>
 fetch('/list.json')
 	.then(response => response.json())
 	.then(data => {
 		const list = document.getElementById('list');
 		for (var i = 0; i < data.length; i++) {
-			const title = document.createElement('dt');
-			title.innerHTML = data[i].name + ' (' + data[i].startDate + ' - ' + data[i].endDate + ')';
-			list.appendChild(title);
-			const description = document.createElement('dd');
-			description.innerHTML = data[i].location;
-			list.appendChild(description);
+			const line1 = document.createElement('tr');
+			const title = document.createElement('td');
+			title.colSpan = 1;
+			title.innerHTML = '<a href="' + data[i].url + '">' + data[i].name + '</a>';
+			line1.appendChild(title);
+			list.appendChild(line1);
+
+			const line2 = document.createElement('tr');
+			line2.innerHTML = '<td>' + data[i].location + '</td><td>' +  data[i].startDate + ' ‒ ' + data[i].endDate + '</td>';
+			list.appendChild(line2);
 		}
 	});
 </script>
