@@ -18,5 +18,12 @@
 		"location": "Online",
 		"endDate": "2020-09-30",
 		"prize": "£15,000"
+	},
+	{
+		"name": "UV Robot Design Contest",
+		"url": "https://www.hackster.io/contests/micronuvrobot",
+		"location": "Online",
+		"endDate": "2020-08-30",
+		"prize": "$21,000+"
 	}
 ]
