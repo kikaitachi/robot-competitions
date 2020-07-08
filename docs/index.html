@@ -11,16 +11,28 @@ body {
 	text-align: center;
 }
 
+h1, h2 {
+	margin: 0;
+	padding: 0;
+}
+
+h2 {
+	font-size: 100%;
+	font-style: italic;	
+}
+
 a {
 	color: black;
 }
 
 table {
 	margin: auto;
+	border-collapse: collapse;
 }
 
 td {
 	vertical-align: top;
+	padding: 0.4rem;
 }
 
 table tr td:nth-child(1) {
@@ -29,11 +41,24 @@ table tr td:nth-child(1) {
 
 table tr td:nth-child(2) {
 	text-align: right;
-	padding-bottom: 1em;
+	border-radius: 0 0 1rem 0;
 }
 
 td.title {
 	font-weight: bold;
+	border-radius: 1rem 0 0 0;
+}
+
+.even {
+	background: #DDD;
+}
+
+.odd {
+	background: #EEE;
+}
+
+.gap {
+	line-height: 0.2rem;
 }
 </style>
 </head>
@@ -48,13 +73,21 @@ fetch('list.json')
 	.then(data => {
 		const list = document.getElementById('list');
 		for (var i = 0; i < data.length; i++) {
+			const className = i % 2 == 0 ? 'even' : 'odd';
 			const line1 = document.createElement('tr');
+			line1.className = className;
 			line1.innerHTML = '<td colspan="2" class="title"><a href="' + data[i].url + '">' + data[i].name + '</a></td>';
 			list.appendChild(line1);
 
 			const line2 = document.createElement('tr');
+			line2.className = className;
 			line2.innerHTML = '<td>' + data[i].location + '</td><td>' + (data[i].startDate ? data[i].startDate + ' ‒ ' : '') + data[i].endDate + '</td>';
 			list.appendChild(line2);
+
+			const line3 = document.createElement('tr');
+			line3.className = 'gap';
+			line3.innerHTML = '<td colspan="2">&nbsp;</td>';
+			list.appendChild(line3);
 		}
 	});
 </script>
