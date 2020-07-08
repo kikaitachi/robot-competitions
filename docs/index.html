@@ -8,19 +8,19 @@
 <link rel="shortcut icon" type="image/png" href="logo.png">
 <style>
 body {
-	color: #444;
-	background: #F0F0F0;
+	color: #333;
 	text-align: center;
 }
 
 h1, h2 {
 	margin: 0;
 	padding: 0;
-	font-variant: small-caps;
 }
 
 h1 {
 	font-size: 220%;
+	font-variant: small-caps;
+	text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 h2 {
@@ -30,7 +30,8 @@ h2 {
 }
 
 a {
-	color: #444;
+	color: #333;
+	text-decoration: none;
 }
 
 table {
@@ -54,21 +55,22 @@ table tr td:nth-child(2) {
 
 td.title {
 	font-weight: bold;
-	/*border-radius: 1rem 0 0 0;*/
+	border-radius: 0.5rem 0.5rem 0 0;
+	background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(200, 200, 200, 0.6));
 }
 
 .year {
 	font-size: 125%;
 	font-weight: bold;
-	border-bottom: 3px solid #444;
+	border-bottom: 3px solid #333;
 }
 
 .even {
-	background: /*rgba(50, 50, 50, 0.1)*/white;
+	background: rgba(255, 255, 255, 0.3);
 }
 
 .odd {
-	background: /*rgba(150, 150, 150, 0.1)*/white;
+	background: rgba(255, 255, 255, 0.3);
 }
 
 .gap {
@@ -76,15 +78,58 @@ td.title {
 }
 
 .footer {
-	font-size: 75%;
+	margin-top: 0.5rem;
+	border-top: 3px solid #333;
+	text-align: center !important;
+}
+
+.quarterOfCircle {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -50vh;
+	margin-left: -50vw;
+	border: 5vw solid rgba(150, 150, 150, 0.1);
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+	border-radius: 50vw 50vh 0 0;
+	width: 100vw;
+	height: 100vh;
+	transform-style: preserve-3d;
+	animation-iteration-count: infinite;
+	animation-duration: 60s;
+	/*animation-direction: alternate;*/
+	animation-timing-function: linear;
+}
+
+#background {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	background-image: radial-gradient(#FFF, #AAA);
+}
+
+.foreground {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
 }
 </style>
 </head>
 <body>
-<h1>Robot competitions</h1>
-<h2>List of future, ongoing and past robot competitions</h2>
-<table id="list"></table>
-<p class="footer">Suggest missing entry: <i>competitions @ kikaitachi . com</i></p>
+<div id="background"></div>
+<div class="foreground">
+	<h1>Robot competitions</h1>
+	<h2>List of future, ongoing and past robot competitions</h2>
+	<table id="list"></table>
+</div>
 <script>
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -124,9 +169,62 @@ fetch('list.json')
 			const line2 = document.createElement('tr');
 			line2.className = className;
 			line2.innerHTML = '<td>' + data[i].location + '</td><td>' + formatDate(data[i].endDate) + '</td>';
-			list.appendChild(line2);			
+			list.appendChild(line2);
 		}
+
+		const gap = document.createElement('tr');
+		gap.className = 'gap';
+		gap.innerHTML = '<td colspan="2">&nbsp;</td>';
+		list.appendChild(gap);
+
+		const footer = document.createElement('tr');
+		footer.innerHTML = '<td colspan="2" class="footer">Suggest missing entry: <i>competitions @ kikaitachi . com</i></td>';
+		list.appendChild(footer);
 	});
+
+const randomInt = (max) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+const background = document.getElementById('background');
+const totalArcs = 10;
+const style = document.createElement('style');
+style.type = 'text/css';
+var keyFrames = '\
+@-webkit-keyframes spinIt {\
+    100% {\
+        -webkit-transform: rotate(A_DYNAMIC_VALUE);\
+    }\
+}\
+@-moz-keyframes spinIt {\
+    100% {\
+        -webkit-transform: rotate(A_DYNAMIC_VALUE);\
+    }\
+}';
+keyFrames.replace(/A_DYNAMIC_VALUE/g, "180deg");
+document.getElementsByTagName('head')[0].appendChild(style);
+for (var i = 1; i <= totalArcs; i++) {
+	const rotX = randomInt(360);
+	const rotY = randomInt(360);
+	const rotZ = randomInt(360);
+	style.innerHTML += '@keyframes rotate' + i + ' {\
+		from {\
+			transform: rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) rotateZ(' + rotZ + 'deg);\
+		}\
+		to {\
+			transform: rotateX(' + (360 + rotX) + 'deg) rotateY(' + (360 + rotY) + 'deg) rotateZ(' + (360 + rotZ) + 'deg);\
+		}\
+	}';
+	const arc = document.createElement('div');
+	arc.className = 'quarterOfCircle';
+	//arc.style.transform = 'rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) rotateZ(' + rotZ + 'deg)';
+	arc.style.margin = '-' + (i * (50 / totalArcs)) + 'vh 0 0 -' + (i * (50 / totalArcs)) + 'vw';
+	arc.style.width = (i * (100 / totalArcs)) + 'vw';
+	arc.style.height = (i * (100 / totalArcs)) + 'vh';
+	arc.style.borderRadius = (i * (100 / totalArcs)) + 'vw ' + (i * (100 / totalArcs)) + 'vh 0 0';
+	arc.style.animationName = 'rotate' + i;
+	background.appendChild(arc);
+}
 </script>
 </body>
 </html>
