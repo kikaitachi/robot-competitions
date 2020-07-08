@@ -18,7 +18,8 @@ h1, h2 {
 
 h2 {
 	font-size: 100%;
-	font-style: italic;	
+	font-style: italic;
+	margin-bottom: 0.5rem;
 }
 
 a {
@@ -49,6 +50,12 @@ td.title {
 	border-radius: 1rem 0 0 0;
 }
 
+.year {
+	font-size: 125%;
+	font-weight: bold;
+	border-bottom: 1px solid black;
+}
+
 .even {
 	background: #DDD;
 }
@@ -60,19 +67,42 @@ td.title {
 .gap {
 	line-height: 0.2rem;
 }
+
+.footer {
+	font-size: 75%;
+}
 </style>
 </head>
 <body>
 <h1>Robot competitions</h1>
 <h2>List of future, ongoing and past robot competitions</h2>
 <table id="list"></table>
-<p>If you know competition not listed here please let me know: <i>competitions @ kikaitachi . com</i></p>
+<p class="footer">Suggest missing entry: <i>competitions @ kikaitachi . com</i></p>
 <script>
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+const formatDate = (date) => {
+	const day = date.substring(8);
+	const month = date.substring(5, 7) - 1;
+	return new Number(day) + '<sup>' + (['01', '21', '31'].includes(day) ? 'st': ['02', '22'].includes(day) ? 'nd' : 'th') + '</sup> ' + months[month];
+};
+
 fetch('list.json')
 	.then(response => response.json())
 	.then(data => {
 		const list = document.getElementById('list');
+		var last_year = -1;
 		for (var i = 0; i < data.length; i++) {
+			const year = data[i].endDate.substring(0, 4);
+			if (last_year !== year) {
+				last_year = year;
+
+				const yearLine = document.createElement('tr');
+				yearLine.className = 'year';
+				yearLine.innerHTML = '<td colspan="2">' + year + '</td>';
+				list.appendChild(yearLine);
+			}
+
 			const line0 = document.createElement('tr');
 			line0.className = 'gap';
 			line0.innerHTML = '<td colspan="2">&nbsp;</td>';
@@ -86,7 +116,7 @@ fetch('list.json')
 
 			const line2 = document.createElement('tr');
 			line2.className = className;
-			line2.innerHTML = '<td>' + data[i].location + '</td><td>' + (data[i].startDate ? data[i].startDate + ' ‒ ' : '') + data[i].endDate + '</td>';
+			line2.innerHTML = '<td>' + data[i].location + '</td><td>' + formatDate(data[i].endDate) + '</td>';
 			list.appendChild(line2);			
 		}
 	});
