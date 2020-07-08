@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Robot competitions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="List of future, ongoing and past competitions for robots.">
+<meta name="description" content="List of future, ongoing and past robot competitions.">
 <link rel="shortcut icon" type="image/png" href="logo.png">
 <style>
 body {
@@ -64,15 +64,20 @@ td.title {
 </head>
 <body>
 <h1>Robot competitions</h1>
-<h2>List of future, ongoing and past competitions for robots</h2>
-<p>If you know competition not listed here please let me know: <i>competitions @ kikaitachi . com</i></p>
+<h2>List of future, ongoing and past robot competitions</h2>
 <table id="list"></table>
+<p>If you know competition not listed here please let me know: <i>competitions @ kikaitachi . com</i></p>
 <script>
 fetch('list.json')
 	.then(response => response.json())
 	.then(data => {
 		const list = document.getElementById('list');
 		for (var i = 0; i < data.length; i++) {
+			const line0 = document.createElement('tr');
+			line0.className = 'gap';
+			line0.innerHTML = '<td colspan="2">&nbsp;</td>';
+			list.appendChild(line0);
+
 			const className = i % 2 == 0 ? 'even' : 'odd';
 			const line1 = document.createElement('tr');
 			line1.className = className;
@@ -82,12 +87,7 @@ fetch('list.json')
 			const line2 = document.createElement('tr');
 			line2.className = className;
 			line2.innerHTML = '<td>' + data[i].location + '</td><td>' + (data[i].startDate ? data[i].startDate + ' ‒ ' : '') + data[i].endDate + '</td>';
-			list.appendChild(line2);
-
-			const line3 = document.createElement('tr');
-			line3.className = 'gap';
-			line3.innerHTML = '<td colspan="2">&nbsp;</td>';
-			list.appendChild(line3);
+			list.appendChild(line2);			
 		}
 	});
 </script>
